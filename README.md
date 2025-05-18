@@ -7,14 +7,22 @@
 
 
 1. **Build & Push Docker Image**  
-   - Use the same Docker image from `taskmgr repo` build ECR and push
+   - Use the same Docker image from `taskmgr repo` build ECR `image_uri` and push
    into `deployment.yaml ln18 `
+
+   **Setup EKS cluster and config**
+aws eks list-clusters
+aws eks update-kubeconfig --name grp-4-eks-cluster --region us-east-1
+kubectl create namespace grp-4-eks-activity
+
+
 2. **Apply Kubernetes Manifests**  
    ```sh
-   kubectl apply -f deployment.yaml
-   kubectl apply -f service.yaml
-   kubectl apply -f ingress.yaml
-   kubectl apply -f configmap.yaml
+kubectl apply -f configmap.yaml
+kubectl apply -f ingress.yaml
+
+kubectl apply -f deployment.yaml
+kubectl apply -f service-account.yaml  
    ```
 3. **Verify**  
    ```sh

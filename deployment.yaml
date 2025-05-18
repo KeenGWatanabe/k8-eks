@@ -15,7 +15,7 @@ spec:
       serviceAccountName: app-service-account  # For IAM roles (IRSA)
       containers:
       - name: app-container
-        image: YOUR_ECR_IMAGE_URL  # Replace with your Docker image
+        image: 255945442255.dkr.ecr.us-east-1.amazonaws.com/grp-4-pte-repo:latest  # Replace with your Docker image
         ports:
         - containerPort: 80  # Same as ECS task's container port
         envFrom:
