@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  replicas: 2  # Adjust as needed
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      serviceAccountName: app-service-account  # For IAM roles (IRSA)
+      containers:
+      - name: app-container
+        image: YOUR_ECR_IMAGE_URL  # Replace with your Docker image
+        ports:
+        - containerPort: 80  # Same as ECS task's container port
+        envFrom:
+        - configMapRef:
+            name: app-config
+        - secretRef:
+            name: app-secrets
+---
+# Service (internal LB)
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP  # Use NodePort/LoadBalancer if needed
