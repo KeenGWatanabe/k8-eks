@@ -1,3 +1,29 @@
+1. **Run backend S3**
+  https://github.com/KeenGWatanabe/tf-backend
+
+2. **Run tf-eks***
+  https://github.com/KeenGWatanabe/tf-eks2
+  Pull out the `oidc arn and input into service-account.yaml ln6`
+
+
+1. **Build & Push Docker Image**  
+   - Use the same Docker image from `taskmgr repo` build ECR and push
+   into `deployment.yaml ln18 `
+2. **Apply Kubernetes Manifests**  
+   ```sh
+   kubectl apply -f deployment.yaml
+   kubectl apply -f service.yaml
+   kubectl apply -f ingress.yaml
+   kubectl apply -f configmap.yaml
+   ```
+3. **Verify**  
+   ```sh
+   kubectl get pods
+   kubectl get ingress  # Check ALB URL
+   ```
+
+
+***DeepSeek***
 Great! You want to **migrate** the infrastructure from **Terraform ECS (`tf-ecs`)** to **Kubernetes (using `tf-eks2`)**. Let's analyze both repos and generate the necessary Kubernetes manifests.
 
 ---
