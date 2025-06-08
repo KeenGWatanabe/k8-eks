@@ -6,14 +6,18 @@
   Pull out the `oidc arn and input into service-account.yaml ln6`
 
 
-1. **Build & Push Docker Image**  
+1. **Build & Push Docker Image**
+
+/main use `taskmgr`
+/dev use `tf-secretsAPP`
+
    - Use the same Docker image from `taskmgr repo` build ECR `image_uri` and push
    into `deployment.yaml ln18 `
 
    **Setup EKS cluster and config**
 aws eks list-clusters
-aws eks update-kubeconfig --name grp-4-eks-cluster --region us-east-1
-kubectl create namespace grp-4-eks-activity
+aws eks update-kubeconfig --name rger-eks-cluster --region us-east-1
+kubectl create namespace rger-eks-app
 
 
 2. **Apply Kubernetes Manifests**  
@@ -29,7 +33,16 @@ kubectl apply -f service-account.yaml
    kubectl get pods
    kubectl get ingress  # Check ALB URL
    ```
-
+# cluster   
+![EKScluster](/images/EKScluster.png)
+# nodes
+![EKSnodes](/images/EKSnodes.png)
+# IAM roles
+![EKSiam](/images/EKSiam.png)
+# pods
+![EKSpods](/images/EKSpods.png)
+# pods events
+![EKSpodsEvents](/images/EKSevents.png)
 
 ***DeepSeek***
 Great! You want to **migrate** the infrastructure from **Terraform ECS (`tf-ecs`)** to **Kubernetes (using `tf-eks2`)**. Let's analyze both repos and generate the necessary Kubernetes manifests.
