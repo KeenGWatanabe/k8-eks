@@ -6,33 +6,59 @@
   Pull out the `oidc arn and input into service-account.yaml ln6`
 
 
-1. **Build & Push Docker Image**
+3. **Build & Push Docker Image**
 
 /main use `taskmgr`
 /dev use `tf-secretsAPP`
 
-   - Use the same Docker image from `taskmgr repo` build ECR `image_uri` and push
-   into `deployment.yaml ln18 `
+- Use the same Docker image from `taskmgr repo` build ECR `image_uri` and push
+into `deployment.yaml ln18 `
 
-   **Setup EKS cluster and config**
+4.   **Setup EKS cluster and config**
 aws eks list-clusters
 aws eks update-kubeconfig --name rger-eks-cluster --region us-east-1
 kubectl create namespace rger-eks-app
 
 
-2. **Apply Kubernetes Manifests**  
+5. **Apply Kubernetes Manifests**  
    ```sh
+# First Infra components   
+kubectl apply -f service-account.yaml   
 kubectl apply -f configmap.yaml
+kubectl apply -f app-secrets.yaml
+
+# Second Core app components 
+kubectl apply -f deployment.yaml
+
+# Third Networking components that reference the app
+kubectl apply -f service.yaml
 kubectl apply -f ingress.yaml
 
-kubectl apply -f deployment.yaml
-kubectl apply -f service-account.yaml  
+
+  
+
    ```
-3. **Verify**  
+5a. **Verify**  
    ```sh
    kubectl get pods
    kubectl get ingress  # Check ALB URL
    ```
+# Force restart pods
+kubectl delete pod -l app=my-app 
+kubectl get pods -w  
+
+# install controller
+helm repo add eks https://aws.github.io/eks-charts
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+  -n kube-system \
+  --set clusterName=your-cluster-name \
+  --set serviceAccount.create=false \
+  --set serviceAccount.name=aws-load-balancer-controller
+
+![EKScontroller](/images/EKScontroller.png) 
+
+
+
 # cluster   
 ![EKScluster](/images/EKScluster.png)
 # nodes
@@ -43,6 +69,13 @@ kubectl apply -f service-account.yaml
 ![EKSpods](/images/EKSpods.png)
 # pods events
 ![EKSpodsEvents](/images/EKSevents.png)
+# secrets file added
+![EKSevents2](/images/EKSevents2.png)
+
+# kubectl get svc
+![EKSsvc](/images/EKSsvc.png)
+
+---------------------------------------------------------------------------------------
 
 ***DeepSeek***
 Great! You want to **migrate** the infrastructure from **Terraform ECS (`tf-ecs`)** to **Kubernetes (using `tf-eks2`)**. Let's analyze both repos and generate the necessary Kubernetes manifests.
