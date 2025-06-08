@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: app-config
+  name: rger-config
 data:
   ENV_VAR_1: "prod"
   # ENV_VAR_2: "value2"

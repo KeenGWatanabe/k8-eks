@@ -1,3 +1,7 @@
+# Broad stroke steps:
+m3.7, m3.8 hands-on activity 
+EKS > configmap.yml > secret.yml > deployment.yml > service.yml (loadbalancer, clusterip, nodeport) > 
+
 1. **Run backend S3**
   https://github.com/KeenGWatanabe/tf-backend
 
@@ -5,6 +9,11 @@
   https://github.com/KeenGWatanabe/tf-eks2
   Pull out the `oidc arn and input into service-account.yaml ln6`
 
+# eks-oidc runDate 20250608
+`oidc_provider_arn = "arn:aws:iam::255945442255:oidc-provider/oidc.eks.us-east-1.amazonaws.com/id/1557EBAF68CB5A70D710A144E9DF10AD"`
+
+https://github.com/KeenGWatanabe/tf-ecr
+Build ECR name it
 
 1. **Build & Push Docker Image**  
    - Use the same Docker image from `taskmgr repo` build ECR `image_uri` and push
