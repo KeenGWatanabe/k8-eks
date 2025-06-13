@@ -1,39 +1,109 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-deployment
+  name: your-app
+  namespace: your-app
+  labels:
+    app: your-app
 spec:
-  replicas: 2  # Adjust as needed
+  replicas: 3
   selector:
     matchLabels:
-      app: secrets-app
+      app: your-app
   template:
     metadata:
       labels:
-        app: secrets-app
+        app: your-app
     spec:
-      serviceAccountName: app-service-account  # For IAM roles (IRSA)
+      serviceAccountName: secrets-manager-sa
       containers:
-      - name: app-container
-        image: 255945442255.dkr.ecr.us-east-1.amazonaws.com/rger-pte-repo:latest  # Replace with your Docker image
+      - name: your-app
+        image: YOUR_ECR_REPO_URI:latest
         ports:
-        - containerPort: 80  # Same as ECS task's container port OR 5000 AS PER APP'S
-        envFrom:
-        - configMapRef:
-            name: rger-config
-        - secretRef:
-            name: app-secrets
----
-# Service (internal LB)
-apiVersion: v1
-kind: Service
-metadata:
-  name: app-service
-spec:
-  selector:
-    app: secrets-app
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: ClusterIP  # Use NodePort/LoadBalancer if needed
+        - containerPort: 8080
+          name: http
+        env:
+        # Environment variables from ConfigMap
+        - name: ENV
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: ENV
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: LOG_LEVEL
+        - name: AWS_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: AWS_REGION
+        - name: S3_BUCKET
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: S3_BUCKET
+        # Secrets from AWS Secrets Manager
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: app-database-secret
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-database-secret
+              key: password
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: app-database-secret
+              key: host
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: app-database-secret
+              key: port
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-api-secret
+              key: api_key
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-api-secret
+              key: secret_key
+        volumeMounts:
+        - name: secrets-store
+          mountPath: "/mnt/secrets-store"
+          readOnly: true
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      volumes:
+      - name: secrets-store
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "app-secrets"
+          nodePublishSecretRef:
+            name: secrets-manager-sa

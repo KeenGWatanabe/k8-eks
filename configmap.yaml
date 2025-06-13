@@ -3,5 +3,8 @@ kind: ConfigMap
 metadata:
   name: rger-config
 data:
-  ENV_VAR_1: "prod"
-  # ENV_VAR_2: "value2"
+  ENV: "prod"
+  LOG_LEVEL: "info"
+  AWS_REGION: "us-west-2"
+  S3_BUCKET: "your-app-bucket"
+  # Add other non-sensitive configuration here
