@@ -17,8 +17,8 @@ spec:
     spec:
       serviceAccountName: secrets-manager-sa
       containers:
-      - name: your-app
-        image: YOUR_ECR_REPO_URI:latest
+      - name: app-container
+        image: 255945442255.dkr.ecr.us-east-1.amazonaws.com/rger-pte-repo:latest  # Replace with your Docker image
         ports:
         - containerPort: 8080
           name: http
