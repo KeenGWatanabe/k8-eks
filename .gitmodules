@@ -1,0 +1,6 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/KeenGWatanabe/tf-backend
+[submodule "eks"]
+	path = eks
+	url = https://github.com/KeenGWatanabe/tf-eks2
