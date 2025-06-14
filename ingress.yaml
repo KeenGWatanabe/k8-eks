@@ -6,7 +6,7 @@ metadata:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/healthcheck-path: /health
-    alb.ingress.kubernetes.io/healthcheck-port: "5000"
+    alb.ingress.kubernetes.io/healthcheck-port: "80" # Match service port
 spec:
   ingressClassName: alb
   rules:
@@ -16,6 +16,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: secrets-app-service
+            name: app-services # Ensure this matches your service.yaml
             port:
               number: 80

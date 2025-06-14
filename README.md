@@ -17,14 +17,15 @@ into `deployment.yaml ln18 `
 
 4.   **Setup EKS cluster and config**
 aws eks list-clusters
-aws eks update-kubeconfig --name rger-eks-cluster --region us-east-1
-kubectl create namespace rger-eks-app
+aws eks update-kubeconfig --name taskmgr-eks-eks-cluster --region us-east-1
+kubectl create namespace taskmgr-eks-app
 
 
 5. **Apply Kubernetes Manifests**  
    ```sh
-# First Infra components   
-kubectl apply -f service-account.yaml   
+# First Infra components 
+> update eks.amazonaws.com/role-arn in service-account.yaml ln 6, source data from tf-eks2 output.
+> kubectl apply -f service-account.yaml   
 kubectl apply -f configmap.yaml
 kubectl apply -f app-secrets.yaml
 
