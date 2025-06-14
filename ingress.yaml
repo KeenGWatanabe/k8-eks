@@ -5,8 +5,9 @@ metadata:
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/healthcheck-port: "80" # Match service port
-    alb.ingress.kubernetes.io/healthcheck-path: /health    
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'  # Match service port
+    # alb.ingress.kubernetes.io/healthcheck-port: "80" # Match service port
+    # alb.ingress.kubernetes.io/healthcheck-path: /health    
 spec:
   ingressClassName: alb
   rules:
@@ -16,6 +17,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: app-services # ⭐ Must match `service.yaml`’s name
+            name: app-service # ⭐ Must match `service.yaml`’s name
             port:
               number: 80

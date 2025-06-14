@@ -28,12 +28,12 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   --set clusterName=taskmgr-eks-eks-cluster \
   --set serviceAccount.create=false \
   --set serviceAccount.name=aws-load-balancer-controller
-  
+
 5. **Apply Kubernetes Manifests**  
    ```sh
 # First Infra components 
 > update eks.amazonaws.com/role-arn in service-account.yaml ln 6, source data from tf-eks2 output.
-> kubectl apply -f service-account.yaml   
+kubectl apply -f service-account.yaml   
 kubectl apply -f configmap.yaml
 kubectl apply -f app-secrets.yaml
 
