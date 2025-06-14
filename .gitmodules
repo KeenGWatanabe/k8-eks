@@ -7,3 +7,6 @@
 [submodule "app"]
 	path = app
 	url = https://github.com/KeenGWatanabe/tf-secretsAPP
+[submodule "taskmgr"]
+	path = taskmgr
+	url = https://github.com/KeenGWatanabe/taskmgr
