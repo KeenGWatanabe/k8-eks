@@ -98,6 +98,8 @@ kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
 kubectl apply -f ingress.yaml
 ```
+# refresh changes if above detect no changes
+kubectl rollout restart deployment <your-deployment-name>
 
 ### **2. Check ALB Status**
 ```sh

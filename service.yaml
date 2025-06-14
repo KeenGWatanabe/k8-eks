@@ -1,11 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-service
+  name: app-service  # ⭐ Key name referenced in Ingress
 spec:
-  type: ClusterIP  # This is correct when using Ingress
-  ports:
-    - port: 80
-      targetPort: 5000
   selector:
-    app: my-app
+    app: app          # Matches Deployment’s Pod labels
+  ports:
+    - protocol: TCP
+      port: 80          # Service port (external)
+      targetPort: 5000  # Pod port (internal)
+  type: NodePort

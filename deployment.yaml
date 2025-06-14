@@ -6,34 +6,31 @@ spec:
   replicas: 2  # Adjust as needed
   selector:
     matchLabels:
-      app: my-app
+      app: app  # ⭐ Used by Service’s `spec.selector.app` to find Pods
   template:
     metadata:
       labels:
-        app: my-app
+        app: app # ⭐ Must match Service’s selector
     spec:
-      serviceAccountName: app-service-account  # For IAM roles (IRSA)
       containers:
-      - name: app-container
+      - name: app
         image: 255945442255.dkr.ecr.us-east-1.amazonaws.com/taskmgr-eks-pte-repo:latest  # Replace with your Docker image
         ports:
-        - containerPort: 80  # Same as ECS task's container port
+        - containerPort: 5000  # Same as ECS task's container port and Service's targetPort
         envFrom:
-        - configMapRef:
-            name: app-config
         - secretRef:
             name: app-secrets
 ---
 # Service (internal LB)
-apiVersion: v1
-kind: Service
-metadata:
-  name: app-service
-spec:
-  selector:
-    app: my-app
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: ClusterIP  # Use NodePort/LoadBalancer if needed
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: app-service
+# spec:
+#   selector:
+#     app: app
+#   ports:
+#     - protocol: TCP
+#       port: 80
+#       targetPort: 5000
+#   type: ClusterIP  # Use NodePort/LoadBalancer if needed
