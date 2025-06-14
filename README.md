@@ -8,8 +8,9 @@
 
 3. **Build & Push Docker Image**
 
-/main use `taskmgr`
+/main use `taskmgr-eks`
 /dev use `tf-secretsAPP`
+/secrets use `secrets`
 
 - Use the same Docker image from `taskmgr repo` build ECR `image_uri` and push
 into `deployment.yaml ln18 `
