@@ -45,3 +45,4 @@ cscope.*
 *.pyc
 
 kubectl 
+*.zip

@@ -9,4 +9,4 @@ spec:
     - protocol: TCP
       port: 80          # Service port (external)
       targetPort: 5000  # Pod port (internal)
-  type: ClusterIP
+  # type: ClusterIP

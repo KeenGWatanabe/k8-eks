@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: 255945442255.dkr.ecr.us-east-1.amazonaws.com/taskmgr-eks-pte-repo:latest  # Replace with your Docker image
+        image: 255945442255.dkr.ecr.us-east-1.amazonaws.com/taskmgr-pte-repo:latest  # Replace with your Docker image
         ports:
         - containerPort: 5000  # Same as ECS task's container port and Service's targetPort
         envFrom:

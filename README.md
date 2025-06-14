@@ -17,7 +17,7 @@ into `deployment.yaml ln18 `
 
 4.   **Setup EKS cluster and config**
 aws eks list-clusters
-aws eks update-kubeconfig --name taskmgr-eks-eks-cluster --region us-east-1
+aws eks update-kubeconfig --name taskmgr-eks-cluster --region us-east-1
 kubectl create namespace taskmgr-eks-app
 
 
@@ -25,7 +25,7 @@ kubectl create namespace taskmgr-eks-app
 helm repo add eks https://aws.github.io/eks-charts
 helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   -n kube-system \
-  --set clusterName=taskmgr-eks-eks-cluster \
+  --set clusterName=taskmgr-eks-cluster \
   --set serviceAccount.create=false \
   --set serviceAccount.name=aws-load-balancer-controller
 
