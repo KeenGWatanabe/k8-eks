@@ -10,3 +10,6 @@
 [submodule "taskmgr"]
 	path = taskmgr
 	url = https://github.com/KeenGWatanabe/taskmgr
+[submodule "ecr"]
+	path = ecr
+	url = https://github.com/KeenGWatanabe/tf-ecr
