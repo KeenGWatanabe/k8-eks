@@ -3,6 +3,7 @@
 
 2. **Run tf-eks***
   https://github.com/KeenGWatanabe/tf-eks2
+  tf-eks2 > eks.tf > `ln15 - name` node grp
   Pull out the `oidc arn and input into service-account.yaml ln6`
 
 
@@ -32,7 +33,7 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
 5. **Apply Kubernetes Manifests**  
    ```sh
 # First Infra components 
-> update eks.amazonaws.com/role-arn in service-account.yaml ln 6, source data from tf-eks2 output.
+> update eks.amazonaws.com/role-arn in service-account.yaml ln7, source data from tf-eks2 output.
 kubectl apply -f service-account.yaml   
 kubectl apply -f configmap.yaml
 kubectl apply -f app-secrets.yaml
