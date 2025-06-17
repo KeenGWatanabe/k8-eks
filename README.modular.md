@@ -1,5 +1,7 @@
-# Deployment steps
-# 1 Apply IAM Role (one-time)
+# branch: (module)
+# modular deployment
+taskmgr > tf-backend > vpc-nat-eip-ec2 > tf-eks2 > k8-eks (alb with kubectl yaml files)
+
 ```bash
 aws iam create-role --role-name eks-alb-controller-role --assume-role-policy-document file://<(cat <<EOF
 {
@@ -25,9 +27,9 @@ EOF
 aws iam attach-role-policy \
   --role-name eks-alb-controller-role \
   --policy-arn arn:aws:iam::aws:policy/AWSLoadBalancerControllerIAMPolicy
-  ```
-  # Deploy Components
-  kubectl apply -f alb-controller-iam.yaml
+```
+# Deploy components
+kubectl apply -f alb-controller-iam.yaml
 kubectl apply -f alb-controller-deployment.yaml
 kubectl apply -f nodejs-app.yaml
 
@@ -38,39 +40,15 @@ kubectl get pods -n kube-system -l app.kubernetes.io/name=aws-load-balancer-cont
 # Check your app
 kubectl get ingress nodejs-ingress
 kubectl get svc nodejs-service
+------------------------
 
-# Apply Autoscaling
-# Apply HPA for your app
-kubectl apply -f nodejs-app.yaml
+# Key Benefits
+Simpler - No Terraform Helm complexity
+Visible - All config in YAML files
+Standard - Pure Kubernetes native approach
+Maintainable - Easy to version control
+Would you like me to:
+Add health checks to the Node.js deployment?
+Include autoscaling configuration?
+Add monitoring setup?
 
-# Set up Cluster Autoscaler (one-time)
-kubectl apply -f cluster-autoscaler.yaml
-
-# Verification
-# Check HPA status
-kubectl get hpa
-
-# Check cluster autoscaler logs
-kubectl logs -n kube-system deployment/cluster-autoscaler
-
-Recommended Additions
-# 1. Custom Metrics (e.g. requests per second):
-metrics:
-- type: Pods
-  pods:
-    metric:
-      name: http_requests_per_second
-    target:
-      type: AverageValue
-      averageValue: 100
-
-# 2. Pod Disruption Budget
-apiVersion: policy/v1
-kind: PodDisruptionBudget
-metadata:
-  name: nodejs-app-pdb
-spec:
-  minAvailable: 1
-  selector:
-    matchLabels:
-      app: nodejs
