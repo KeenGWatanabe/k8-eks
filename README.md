@@ -9,9 +9,10 @@
 
 3. **Build & Push Docker Image**
 
-/main use `taskmgr-eks`
+/main use `taskmgr-eks` > use backend > tf-eks2 > alb by helm resource
 /dev use `tf-secretsAPP`
 /secrets use `secrets`
+/module use > backend > vpc > tf-eks2 > alb by kubectl
 
 - Use the same Docker image from `taskmgr repo` build ECR `image_uri` and push
 into `deployment.yaml ln18 `
