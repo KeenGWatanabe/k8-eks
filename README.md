@@ -1,3 +1,9 @@
+# Branches use in this repo
+/main use `taskmgr-eks` > use backend > tf-eks2 > alb by helm resource
+/dev use `tf-secretsAPP`
+/secrets use `secrets`
+/module use > backend > vpc > tf-eks2 > alb by kubectl
+
 # Deployment steps
 # 1 Apply IAM Role (one-time)
 ```bash
