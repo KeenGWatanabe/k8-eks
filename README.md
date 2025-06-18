@@ -18,11 +18,14 @@
 into `deployment.yaml ln18 `
 
 4.   **Setup EKS cluster and config**
+have to create IAM policy on EKS console
+![add IAM access entry](/images/IAMaccess.png)
+Choose AmazonEKSClusterAdminPolicy here
+![EKS_IAM](/README_FILES/CREATE_EKS_IAM_POLICY.md)
 aws eks list-clusters
 aws eks update-kubeconfig --name custom-eks-cluster --region us-east-1
 
-have to create IAM policy on EKS console
-![add IAM access entry](/images/IAMaccess.png)
+
 kubectl create namespace custom-eks-app
 
 
