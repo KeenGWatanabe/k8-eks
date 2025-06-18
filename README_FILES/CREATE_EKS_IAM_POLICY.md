@@ -1,5 +1,5 @@
 This message indicates your **IAM user/role lacks explicit permissions** to interact with the Kubernetes API in EKS. Here's how to fix it:
-
+![Cluster_IAM_Screenshot](/images/Cluster_IAM.png)
 ### Solution: Add IAM Access Entry
 
 1. **Go to EKS Console** → Your Cluster → **Access tab** → **Add access entry**
