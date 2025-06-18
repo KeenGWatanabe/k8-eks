@@ -22,18 +22,19 @@ have to create IAM policy on EKS console
 ![add IAM access entry](/images/IAMaccess.png)
 Choose AmazonEKSClusterAdminPolicy here
 ![EKS_IAM](/README_FILES/CREATE_EKS_IAM_POLICY.md)
+
 aws eks list-clusters
-aws eks update-kubeconfig --name custom-eks-cluster --region us-east-1
+aws eks update-kubeconfig --name thunder-eks-cluster --region us-east-1
 
 
-kubectl create namespace custom-eks-app
+kubectl create namespace thunder-eks-app
 
 
 # install controller
 helm repo add eks https://aws.github.io/eks-charts
 helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
   -n kube-system \
-  --set clusterName=custom-eks-cluster \
+  --set clusterName=thunder-eks-cluster \
   --set serviceAccount.create=false \
   --set serviceAccount.name=aws-load-balancer-controller
 
