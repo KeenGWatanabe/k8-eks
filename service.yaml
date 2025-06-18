@@ -2,11 +2,20 @@ apiVersion: v1
 kind: Service
 metadata:
   name: app-service  # ⭐ Key name referenced in Ingress
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags: "Environment=dev"
+    alb.ingress.kubernetes.io/timeout: "60" 
 spec:
+  type: LoadBalancer # ⭐ Use either LoadBalancer OR ClusterIP
+   # Use ClusterIP if you want an internal service only
+   # Use NodePort if you want to expose it on a port on each node
+   # Use LoadBalancer for external access via AWS ELB
+   # Use ExternalName for DNS-based service discovery
+   # Use Headless Service for direct Pod access without load balancing
+   # Use ClusterIP for internal communication within the cluster
   selector:
-    app: app          # Matches Deployment’s Pod labels
+    app: app
   ports:
     - protocol: TCP
-      port: 80          # Service port (external)
-      targetPort: 5000  # Pod port (internal)
-  type: ClusterIP
+      port: 80
+      targetPort: 5000
