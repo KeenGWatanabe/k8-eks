@@ -16,3 +16,6 @@
 [submodule "vpc"]
 	path = vpc
 	url = https://github.com/KeenGWatanabe/tf-vpc-nat-eip-ec2
+[submodule "helm-alb"]
+	path = helm-alb
+	url = https://github.com/KeenGWatanabe/tf-helm-alb
